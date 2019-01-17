@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Titel van de pagina</title>
+  </head>
+  <body>
+    <h1 id="h11">index.html</h1>
+    <button id="btn1">Click here</button>
+    
+    <p></p>
+    <form id="loginform">
+      <input type="text" name="username" />
+      <input type="password" name="password" />
+      <input type="button" value="login" id="login" />
+    </form>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+  <script>
+  function login(event) {
+	  var formData = new FormData(document.querySelector("#loginform"));
+	  var encData = new URLSearchParams(formData.entries());
+	  
+	  fetch("restservices/authentication", { method: 'POST', body: encData }).then(function(response) {
+		  if (response.ok) return response.json();
+		  else throw "Wrong username/password";
+	  })
+	  .then(myJson => window.sessionStorage.setItem("myJWT", myJson.JWT))
+	  .catch(error => console.log(error));
+  }
+  document.querySelector("#login").addEventListener("click", login);
+  
+  var x = 0;
+  $("#btn1").click(function() {
+	  console.log(x);
+	  x++;
+		
+	  $.ajax({
+		  method: "GET",
+		  url: "restservices/testing",
+		  beforeSend: function(xhr) {
+			  var token = window.sessionStorage.getItem("myJWT");
+			  xhr.setRequestHeader('Authorization', 'Bearer ' + token)
+		  },
+		  succes: function() {
+			  console.log("SUCCES");
+		  }
+	  })
+	  
+  });
+  </script>
+</html>
