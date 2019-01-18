@@ -35,6 +35,7 @@ public class TestResource {
 		return array.toString();
 	}
 	
+	@Path("/message")
 	@GET
 	@Produces("Application/json")
 	public void getMessage(){
