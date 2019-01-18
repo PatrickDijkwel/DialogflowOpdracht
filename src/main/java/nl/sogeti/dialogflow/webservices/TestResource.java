@@ -34,5 +34,11 @@ public class TestResource {
 		JsonArray array = jab.build();
 		return array.toString();
 	}
+	
+	@GET
+	@Produces("Application/json")
+	public void getMessage(){
+		System.out.println("Dit is een bericht van Dialogflow!");
+	}
 
 }
