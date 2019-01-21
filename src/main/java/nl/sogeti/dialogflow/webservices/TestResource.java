@@ -37,9 +37,18 @@ public class TestResource {
 	
 	@Path("/message")
 	@GET
-	@Produces("Application/json")
-	public void getMessage(){
-		System.out.println("Dit is een bericht van Dialogflow!");
+	@Produces("application/json")
+	public String getMessage(){
+//		System.out.println("Dit is een bericht van Dialogflow!");
+		JsonArrayBuilder jab = Json.createArrayBuilder();
+		for(int i = 0;i < 10;i++) {
+			JsonObjectBuilder job = Json.createObjectBuilder();
+			job.add("Naam", "Gast Nr." + i);
+			job.add("Leeftijd", i * 4);
+			jab.add(job);
+		}
+		JsonArray array = jab.build();
+		return array.toString();
 	}
 
 }
